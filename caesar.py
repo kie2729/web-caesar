@@ -1,5 +1,5 @@
 
-def encrypt(text, rot):
+def encryption(text, rot):
     new_message = ''
     for char in text:
         new_char = rotate_character(char, rot)
@@ -17,21 +17,19 @@ def alphabet_position(letter):
         for x in ALPHABET:
             if letter == x:
                 position = ALPHABET.index(x)
-        return position
+                return position
 
     else:
         for x in alphabet:
             if letter == x:
                 position = alphabet.index(x)
-        return position
+                return position
 
 def rotate_character(char, rot):
     """return a character 'rot' farther in the alphabet"""
     if char.isalpha() == False:
         return char
-
     else:
-    
         original_pos = alphabet_position(char)
         new_pos = original_pos + rot
 
@@ -40,7 +38,6 @@ def rotate_character(char, rot):
 
         alphabet='abcdefghijklmnopqrstuvwxyz'
         ALPHABET='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
         
         if char.isupper() == True:
             new_char = ALPHABET[new_pos]

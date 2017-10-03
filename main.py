@@ -1,55 +1,31 @@
 from flask import Flask, request
-from caesar import rotate_character
+from caesar import encryption
+
+import os
+import jinja2
+
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-form = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            form {
-                background-color: #eee;
-                padding: 20px;
-                margin: 0 auto;
-                width: 540px;
-                font: 16px sans-serif;
-                border-radius: 10px;
-            }
-            textarea {
-                margin: 10px 0;
-                width: 540px;
-                height: 120px;
-            }
-        </style>
-    </head>
-    <body>
-        <form methods="POST", action='/'>
-            <label for='rot'>Rotate by: </label>
-            <input type="text" name="rot" />
-            <input type="textarea" name="text" />
-            <input type="submit" />
-        </form>
-    </body>
-</html>
+@app.route("/", methods=['get'])
+def index():
+    template = jinja_env.get_template('encrypt_template.html')
+    return template.render()
 
-"""
+
 
 @app.route("/", methods=['post'])
-def index():
-    return form
-
-"""
-@app.route("/", methods = ['POST'])
 def encrypt():
-    rot = int(request.form['rot']),
+    rot = int(request.form['rot'])
     text = request.form['text']
 
-    new_message = rotate_character(text,rot)
-    return new_message
+    new_message = encryption(text, rot)
 
-    return request.form['rot']"""
+    template = jinja_env.get_template('encrypt_template.html')
+    return template.render(text=new_message)
 
 app.run()
 
